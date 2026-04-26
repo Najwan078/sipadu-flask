@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SIPADU UNPAM — Pendaftaran Mahasiswa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--navy:#0a1628;--navy2:#111f3a;--navy3:#0c1830;--gold:#d4a843;--gold2:#f0c96b;--cream:#f5f0e8;--muted:#8a95a8;--red:#e05252;--green:#3fbf7f;--border:rgba(212,168,67,.18);--card:rgba(17,31,58,.92);--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");opacity:.7}
+    body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(212,168,67,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,67,.025) 1px,transparent 1px);background-size:60px 60px}
+    .wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 24px}
+    header{background:linear-gradient(170deg,#0d1e3a 0%,#0a1628 70%);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .hinner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .logobadge{width:46px;height:46px;border-radius:11px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:20px;font-weight:800;color:var(--navy);box-shadow:0 3px 16px rgba(212,168,67,.4);flex-shrink:0}
+    .brandtext h1{font-family:var(--fh);font-size:1.25rem;font-weight:800;letter-spacing:-.01em;color:var(--cream)}
+    .brandtext h1 span{color:var(--gold)}
+    .brandtext p{font-size:.7rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:1px}
+    .back-btn{display:flex;align-items:center;gap:8px;padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:var(--fb);font-size:.85rem;border-radius:10px;text-decoration:none;transition:all .2s}
+    .back-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* ── HERO ── */
+    .hero{padding:48px 0 0;text-align:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);border-radius:99px;font-size:.75rem;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px}
+    .hero h2{font-family:var(--fh);font-size:2rem;font-weight:800;line-height:1.15;margin-bottom:10px}
+    .hero h2 span{color:var(--gold)}
+    .hero p{color:var(--muted);font-size:.92rem;max-width:480px;margin:0 auto;line-height:1.6}
+
+    /* ── FORM CARD ── */
+    .form-outer{max-width:680px;margin:36px auto 60px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;backdrop-filter:blur(10px);box-shadow:0 12px 60px rgba(0,0,0,.45)}
+    .form-header{padding:26px 32px 22px;background:linear-gradient(90deg,rgba(212,168,67,.1),rgba(212,168,67,.03));border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px}
+    .form-header-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .form-header h3{font-family:var(--fh);font-size:1rem;font-weight:700}
+    .form-header p{font-size:.78rem;color:var(--muted);margin-top:2px}
+    .form-body{padding:28px 32px 32px}
+    .section-label{font-family:var(--fh);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:16px;margin-top:26px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .section-label:first-child{margin-top:0}
+    .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .fgrid.full{grid-template-columns:1fr}
+    .fgroup{display:flex;flex-direction:column;gap:6px}
+    .fgroup label{font-size:.8rem;color:var(--muted);letter-spacing:.02em}
+    .fgroup label span{color:var(--red)}
+    .fgroup input,.fgroup select{background:rgba(10,22,40,.7);border:1px solid rgba(212,168,67,.2);color:var(--cream);font-family:var(--fb);font-size:.9rem;padding:12px 14px;border-radius:10px;outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
+    .fgroup select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 4.5L11 1' stroke='%238a95a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;background-color:rgba(10,22,40,.7)}
+    .fgroup select option{background:#111f3a}
+    .fgroup input:focus,.fgroup select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,67,.12)}
+    .fgroup input::placeholder{color:rgba(138,149,168,.5)}
+    .fgroup input.err,.fgroup select.err{border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(224,82,82,.1)!important}
+    .errmsg{font-size:.74rem;color:var(--red);display:none;margin-top:2px}
+    .errmsg.show{display:block}
+    .hint{font-size:.73rem;color:var(--muted);margin-top:3px}
+    .radio-row{display:flex;gap:12px;margin-top:2px}
+    .radio-opt{flex:1;display:flex;align-items:center;gap:10px;padding:11px 14px;background:rgba(10,22,40,.7);border:1px solid rgba(212,168,67,.2);border-radius:10px;cursor:pointer;transition:border-color .2s,background .2s}
+    .radio-opt input[type=radio]{accent-color:var(--gold);width:16px;height:16px;cursor:pointer;flex-shrink:0}
+    .radio-opt:has(input:checked){border-color:var(--gold);background:rgba(212,168,67,.08)}
+    .radio-opt .rlbl{font-size:.88rem;cursor:pointer}
+    .radio-opt .rdesc{font-size:.72rem;color:var(--muted);margin-top:1px}
+
+    /* ── SUBMIT ── */
+    .submit-row{margin-top:28px}
+    .submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-family:var(--fh);font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:opacity .2s,transform .15s;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:8px}
+    .submit-btn:hover:not(:disabled){opacity:.92;transform:translateY(-1px)}
+    .submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .submit-btn .spin{width:18px;height:18px;border:2.5px solid rgba(10,22,40,.3);border-top-color:var(--navy);border-radius:50%;animation:spin .6s linear infinite;display:none}
+    .submit-btn.loading .spin{display:block}
+    .submit-btn.loading .btn-text{display:none}
+
+    /* ── ALERTS ── */
+    .alert{display:none;padding:14px 18px;border-radius:11px;font-size:.875rem;margin-top:16px;border:1px solid;line-height:1.5}
+    .alert.show{display:flex;align-items:flex-start;gap:10px}
+    .alert-ok{background:rgba(63,191,127,.1);border-color:rgba(63,191,127,.3);color:var(--green)}
+    .alert-err{background:rgba(224,82,82,.1);border-color:rgba(224,82,82,.3);color:#f09090}
+    .alert-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+
+    /* ── SUCCESS OVERLAY ── */
+    .success-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(10,22,40,.96);backdrop-filter:blur(8px);align-items:center;justify-content:center}
+    .success-overlay.show{display:flex}
+    .success-card{background:var(--navy2);border:1px solid var(--border);border-radius:20px;padding:48px 40px;text-align:center;max-width:420px;width:90%;box-shadow:0 20px 80px rgba(0,0,0,.6)}
+    .success-icon{font-size:4rem;margin-bottom:20px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275)}
+    @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .success-card h3{font-family:var(--fh);font-size:1.5rem;font-weight:800;margin-bottom:8px}
+    .success-card h3 span{color:var(--gold)}
+    .success-card p{color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:28px}
+    .success-card .nim-show{font-family:var(--fh);font-size:1.1rem;color:var(--gold2);letter-spacing:.08em;margin:12px 0 20px;padding:10px 20px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.25);border-radius:10px;display:inline-block}
+    .sc-btns{display:flex;flex-direction:column;gap:10px}
+    .sc-btn{padding:13px;border-radius:11px;font-family:var(--fh);font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;display:block;text-align:center;transition:all .2s}
+    .sc-btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border:none}
+    .sc-btn-primary:hover{opacity:.9}
+    .sc-btn-sec{background:transparent;border:1px solid var(--border);color:var(--muted)}
+    .sc-btn-sec:hover{border-color:var(--gold);color:var(--gold)}
+
+    footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-size:.74rem;color:var(--muted)}
+    footer span{color:var(--gold)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .an{animation:fadeUp .4s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.14s}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:580px){.fgrid{grid-template-columns:1fr}.form-body{padding:22px 20px 26px}.form-header{padding:20px}.radio-row{flex-direction:column}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hinner">
+      <a href="/" class="brand">
+        <div class="logobadge">U</div>
+        <div class="brandtext"><h1>SI<span>PADU</span> UNPAM</h1><p>Sistem Informasi Akademik</p></div>
+      </a>
+      <a href="/" class="back-btn">← Lihat Database</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="hero an d1">
+      <div class="hero-badge">📋 Pendaftaran Mahasiswa Baru</div>
+      <h2>Daftarkan Diri Anda ke <span>SIPADU</span></h2>
+      <p>Isi formulir di bawah dengan data yang benar dan lengkap. Data Anda akan langsung tersimpan ke database UNPAM.</p>
+    </div>
+
+    <div class="form-outer an d2">
+      <div class="form-header">
+        <div class="form-header-icon">🎓</div>
+        <div>
+          <h3>Formulir Pendaftaran Mahasiswa</h3>
+          <p>Universitas Pamulang — Sistem Informasi Akademik</p>
+        </div>
+      </div>
+
+      <div class="form-body">
+        <!-- DATA PRIBADI -->
+        <div class="section-label">Data Pribadi</div>
+        <div class="fgrid full">
+          <div class="fgroup">
+            <label>Nama Lengkap <span>*</span></label>
+            <input type="text" id="nama" placeholder="Contoh: Ahmad Fauzan" maxlength="100"/>
+            <div class="errmsg" id="e-nama"></div>
+          </div>
+        </div>
+        <div class="fgrid" style="margin-top:14px">
+          <div class="fgroup">
+            <label>Email <span>*</span></label>
+            <input type="email" id="email" placeholder="nama@email.com"/>
+            <div class="errmsg" id="e-email"></div>
+          </div>
+          <div class="fgroup">
+            <label>No. Handphone <span>*</span></label>
+            <input type="tel" id="no_hp" placeholder="08123456789"/>
+            <div class="hint">Dimulai dengan 08, 10–13 digit</div>
+            <div class="errmsg" id="e-no_hp"></div>
+          </div>
+        </div>
+
+        <!-- DATA AKADEMIK -->
+        <div class="section-label">Data Akademik</div>
+        <div class="fgrid">
+          <div class="fgroup">
+            <label>NIM <span>*</span></label>
+            <input type="text" id="nim" placeholder="Contoh: 2023123456" maxlength="10"/>
+            <div class="hint">10 digit angka</div>
+            <div class="errmsg" id="e-nim"></div>
+          </div>
+          <div class="fgroup">
+            <label>Program Studi <span>*</span></label>
+            <select id="prodi">
+              <option value="">— Pilih Program Studi —</option>
+              {% for prodi, fak in prodis %}
+              <option value="{{ prodi }}">{{ prodi }}</option>
+              {% endfor %}
+            </select>
+            <div class="errmsg" id="e-prodi"></div>
+          </div>
+        </div>
+        <div class="fgrid" style="margin-top:14px">
+          <div class="fgroup">
+            <label>Angkatan <span>*</span></label>
+            <select id="angkatan">
+              <option value="">— Pilih Angkatan —</option>
+              {% for y in range(2030, 1999, -1) %}
+              <option value="{{ y }}">{{ y }}</option>
+              {% endfor %}
+            </select>
+            <div class="errmsg" id="e-angkatan"></div>
+          </div>
+          <div class="fgroup">
+            <label>Semester <span>*</span></label>
+            <select id="semester">
+              <option value="">— Pilih Semester —</option>
+              {% for s in range(1, 15) %}
+              <option value="{{ s }}">Semester {{ s }}</option>
+              {% endfor %}
+            </select>
+            <div class="errmsg" id="e-semester"></div>
+          </div>
+        </div>
+
+        <!-- STATUS -->
+        <div class="section-label">Status Mahasiswa</div>
+        <div class="radio-row">
+          <label class="radio-opt">
+            <input type="radio" name="status" value="Aktif" checked/>
+            <div>
+              <div class="rlbl">🟢 Aktif</div>
+              <div class="rdesc">Sedang menempuh perkuliahan</div>
+            </div>
+          </label>
+          <label class="radio-opt">
+            <input type="radio" name="status" value="Cuti"/>
+            <div>
+              <div class="rlbl">🟡 Cuti</div>
+              <div class="rdesc">Sementara tidak aktif kuliah</div>
+            </div>
+          </label>
+        </div>
+
+        <!-- ALERTS & SUBMIT -->
+        <div class="alert alert-ok" id="alertOk">
+          <div class="alert-icon">✅</div>
+          <div id="alertOkMsg"></div>
+        </div>
+        <div class="alert alert-err" id="alertErr">
+          <div class="alert-icon">⚠️</div>
+          <div id="alertErrMsg"></div>
+        </div>
+
+        <div class="submit-row">
+          <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+            <div class="spin"></div>
+            <span class="btn-text">✉️ &nbsp;Daftarkan Sekarang</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">🎉</div>
+    <h3>Pendaftaran <span>Berhasil!</span></h3>
+    <p id="successMsg">Data Anda telah tersimpan di database SIPADU UNPAM.</p>
+    <div class="nim-show" id="successNim"></div>
+    <div class="sc-btns">
+      <a href="/" class="sc-btn sc-btn-primary">🔍 Lihat Database Mahasiswa</a>
+      <a href="/daftar" class="sc-btn sc-btn-sec" onclick="resetForm(); this.closest('.success-overlay').classList.remove('show')">+ Daftar Mahasiswa Lain</a>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap">&copy; 2025 <span>Universitas Pamulang</span> — SIPADU v3.0 &nbsp;|&nbsp; Jl. Surya Kencana No.1, Pamulang, Tangerang Selatan</div></footer>
+
+<script>
+const FIELDS = ['nim','nama','prodi','angkatan','semester','email','no_hp'];
+
+function getVal(id){return document.getElementById(id)?.value?.trim()||''}
+function getRadio(name){return document.querySelector(`input[name="${name}"]:checked`)?.value||''}
+function setErr(id,msg){const el=document.getElementById('e-'+id);if(el){el.textContent=msg;el.classList.toggle('show',!!msg)}const inp=document.getElementById(id);if(inp)inp.classList.toggle('err',!!msg)}
+function clearErrs(){FIELDS.forEach(f=>setErr(f,''));document.getElementById('alertOk').classList.remove('show');document.getElementById('alertErr').classList.remove('show')}
+
+async function submitForm(){
+  clearErrs();
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.classList.add('loading');
+
+  const payload={
+    nim:getVal('nim'),nama:getVal('nama'),prodi:getVal('prodi'),
+    angkatan:getVal('angkatan'),semester:getVal('semester'),
+    email:getVal('email'),no_hp:getVal('no_hp'),status:getRadio('status')
+  };
+
+  try{
+    const res=await fetch('/api/daftar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const data=await res.json();
+
+    if(data.ok){
+      // show success overlay
+      document.getElementById('successMsg').textContent=data.message;
+      document.getElementById('successNim').textContent='NIM: '+payload.nim;
+      document.getElementById('successOverlay').classList.add('show');
+    }else{
+      if(data.errors){
+        let hasFieldErr=false;
+        Object.entries(data.errors).forEach(([k,v])=>{if(k!=='_'){setErr(k,v);hasFieldErr=true}});
+        if(!hasFieldErr||data.errors._){
+          const errEl=document.getElementById('alertErr');
+          document.getElementById('alertErrMsg').textContent=Object.values(data.errors).join(' • ');
+          errEl.classList.add('show');
+          errEl.scrollIntoView({behavior:'smooth',block:'center'});
+        }
+      }
+    }
+  }catch(err){
+    const errEl=document.getElementById('alertErr');
+    document.getElementById('alertErrMsg').textContent='Koneksi gagal. Pastikan server berjalan.';
+    errEl.classList.add('show');
+  }
+
+  btn.disabled=false;btn.classList.remove('loading');
+}
+
+function resetForm(){
+  FIELDS.forEach(f=>{const el=document.getElementById(f);if(el)el.value=''});
+  document.querySelector('input[name="status"][value="Aktif"]').checked=true;
+  clearErrs();
+}
+
+// clear error on input
+FIELDS.forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('input',()=>setErr(id,''));
+});
+// enter to submit
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.tagName!=='SELECT')submitForm()});
+</script>
+</body>
+</html>

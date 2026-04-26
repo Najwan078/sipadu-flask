@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SIPADU UNPAM — Pencarian Mahasiswa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--navy:#0a1628;--navy2:#111f3a;--gold:#d4a843;--gold2:#f0c96b;--cream:#f5f0e8;--muted:#8a95a8;--red:#e05252;--green:#3fbf7f;--border:rgba(212,168,67,.18);--card:rgba(17,31,58,.9);--r:14px;--fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");opacity:.7}
+    body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(212,168,67,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,67,.025) 1px,transparent 1px);background-size:60px 60px}
+    .wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 24px}
+    header{background:linear-gradient(170deg,#0d1e3a 0%,#0a1628 70%);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .hinner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .logobadge{width:46px;height:46px;border-radius:11px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:20px;font-weight:800;color:var(--navy);box-shadow:0 3px 16px rgba(212,168,67,.4);flex-shrink:0}
+    .brandtext h1{font-family:var(--fh);font-size:1.25rem;font-weight:800;letter-spacing:-.01em;color:var(--cream)}
+    .brandtext h1 span{color:var(--gold)}
+    .brandtext p{font-size:.7rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:1px}
+    .nav-btn{padding:10px 20px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-family:var(--fh);font-weight:700;font-size:.85rem;border-radius:10px;text-decoration:none;transition:opacity .2s,transform .15s;white-space:nowrap}
+    .nav-btn:hover{opacity:.9;transform:translateY(-1px)}
+    .statsbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+    .statcell{background:var(--navy2);padding:14px 20px;display:flex;flex-direction:column;gap:3px}
+    .statcell .num{font-family:var(--fh);font-size:1.65rem;font-weight:800;color:var(--gold);line-height:1}
+    .statcell .lbl{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .search-wrap{padding:32px 0 0}
+    .searchbox{display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4);transition:border-color .2s;backdrop-filter:blur(8px)}
+    .searchbox:focus-within{border-color:var(--gold)}
+    .sico{padding:0 14px 0 20px;color:var(--muted);font-size:1.05rem;flex-shrink:0}
+    #qi{flex:1;background:transparent;border:none;outline:none;color:var(--cream);font-family:var(--fb);font-size:.97rem;padding:17px 0}
+    #qi::placeholder{color:var(--muted)}
+    .sbtn{margin:6px;padding:11px 22px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-family:var(--fh);font-weight:700;font-size:.88rem;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s,transform .1s}
+    .sbtn:hover{opacity:.92;transform:scale(1.02)}
+    .frow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    .fsel{flex:1;min-width:155px;background:var(--card);border:1px solid var(--border);color:var(--cream);font-family:var(--fb);font-size:.83rem;padding:10px 36px 10px 14px;border-radius:10px;outline:none;cursor:pointer;backdrop-filter:blur(6px);transition:border-color .2s;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 4.5L11 1' stroke='%238a95a8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center}
+    .fsel:focus{border-color:var(--gold)}
+    .fsel option{background:var(--navy2)}
+    .clrbtn{padding:10px 18px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:var(--fb);font-size:.83rem;border-radius:10px;cursor:pointer;transition:all .2s}
+    .clrbtn:hover{border-color:var(--gold);color:var(--gold)}
+    .rmeta{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px;font-size:.8rem;color:var(--muted)}
+    .rmeta strong{color:var(--gold)}
+    .tcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;backdrop-filter:blur(6px);box-shadow:0 4px 28px rgba(0,0,0,.3)}
+    table{width:100%;border-collapse:collapse}
+    thead tr{background:linear-gradient(90deg,rgba(212,168,67,.13),rgba(212,168,67,.03));border-bottom:1px solid var(--border)}
+    th{font-family:var(--fh);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);font-weight:700;padding:13px 15px;text-align:left;white-space:nowrap}
+    tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:rgba(212,168,67,.05)}
+    td{padding:13px 15px;font-size:.865rem;color:var(--cream);vertical-align:middle}
+    .nim{font-family:var(--fh);font-size:.76rem;color:var(--gold2);letter-spacing:.04em}
+    .email-sm{font-size:.73rem;color:var(--muted);margin-top:2px}
+    .badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:600;letter-spacing:.03em}
+    .ba{background:rgba(63,191,127,.15);color:var(--green);border:1px solid rgba(63,191,127,.25)}
+    .bc{background:rgba(212,168,67,.15);color:var(--gold);border:1px solid rgba(212,168,67,.25)}
+    .tgl{font-size:.73rem;color:var(--muted)}
+    .empty{text-align:center;padding:70px 24px}
+    .empty .ico{font-size:3rem;margin-bottom:14px;opacity:.45}
+    .empty h3{font-family:var(--fh);font-size:1.1rem;margin-bottom:6px}
+    .empty p{font-size:.85rem;color:var(--muted)}
+    .empty a{display:inline-block;margin-top:18px;padding:11px 24px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);font-family:var(--fh);font-weight:700;font-size:.88rem;border-radius:10px;text-decoration:none}
+    .pag{display:flex;align-items:center;justify-content:center;gap:6px;padding:28px 0 50px}
+    .pb{width:38px;height:38px;border-radius:10px;background:var(--card);border:1px solid var(--border);color:var(--cream);font-family:var(--fh);font-size:.84rem;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+    .pb:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+    .pb:disabled{opacity:.3;cursor:not-allowed}
+    .pb.active{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);border-color:transparent}
+    .spinwrap{display:none;align-items:center;justify-content:center;padding:60px}
+    .spin{width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    footer{border-top:1px solid var(--border);padding:20px 0;text-align:center;font-size:.74rem;color:var(--muted)}
+    footer span{color:var(--gold)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .an{animation:fadeUp .4s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}
+    @media(max-width:768px){.statsbar{grid-template-columns:repeat(2,1fr)}.hs{display:none}}
+    @media(max-width:480px){.frow{flex-direction:column}.fsel,.clrbtn{min-width:unset;width:100%}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="hinner">
+      <a href="/" class="brand">
+        <div class="logobadge">U</div>
+        <div class="brandtext"><h1>SI<span>PADU</span> UNPAM</h1><p>Sistem Informasi Akademik</p></div>
+      </a>
+      <a href="/daftar" class="nav-btn">+ Daftar Mahasiswa</a>
+    </div>
+  </div>
+  <div class="statsbar">
+    <div class="statcell"><div class="num" id="sT">—</div><div class="lbl">Total Mahasiswa</div></div>
+    <div class="statcell"><div class="num" id="sA">—</div><div class="lbl">Aktif</div></div>
+    <div class="statcell"><div class="num" id="sI">—</div><div class="lbl">Rata-rata IPK</div></div>
+    <div class="statcell"><div class="num" id="sP">—</div><div class="lbl">Program Studi</div></div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <section class="search-wrap an d1">
+      <div class="searchbox">
+        <span class="sico">🔍</span>
+        <input id="qi" type="text" placeholder="Cari nama, NIM, atau email mahasiswa…" autocomplete="off"/>
+        <button class="sbtn" onclick="doSearch(1)">Cari</button>
+      </div>
+      <div class="frow">
+        <select class="fsel" id="fP"><option value="">Semua Program Studi</option></select>
+        <select class="fsel" id="fF"><option value="">Semua Fakultas</option></select>
+        <select class="fsel" id="fS"><option value="">Semua Status</option></select>
+        <select class="fsel" id="fA"><option value="">Semua Angkatan</option></select>
+        <button class="clrbtn" onclick="clearF()">✕ Reset</button>
+      </div>
+    </section>
+    <div class="rmeta an d2" id="rmeta" style="display:none"></div>
+    <div class="spinwrap an" id="sw"><div class="spin"></div></div>
+    <div class="tcard an d3" id="tc" style="display:none"></div>
+    <div id="ew" style="display:none" class="tcard an d3"></div>
+    <div class="pag" id="pg"></div>
+  </div>
+</main>
+<footer><div class="wrap">&copy; 2025 <span>Universitas Pamulang</span> — SIPADU v3.0 &nbsp;|&nbsp; Jl. Surya Kencana No.1, Pamulang, Tangerang Selatan</div></footer>
+<script>
+let curPage=1;
+async function loadFilters(){const d=await fetch('/api/filters').then(r=>r.json());fill('fP',d.prodis,'Semua Program Studi');fill('fF',d.fakultas,'Semua Fakultas');fill('fS',d.statuses,'Semua Status');const s=document.getElementById('fA');s.innerHTML='<option value="">Semua Angkatan</option>'+d.angkatans.map(v=>`<option value="${v}">${v}</option>`).join('')}
+function fill(id,items,ph){const s=document.getElementById(id);s.innerHTML=`<option value="">${ph}</option>`+items.map(v=>`<option value="${v}">${v}</option>`).join('')}
+async function loadStats(){const d=await fetch('/api/stats').then(r=>r.json());animN('sT',d.total);animN('sA',d.aktif);animN('sP',d.total_prodi);document.getElementById('sI').textContent=d.total>0?d.avg_ipk:'—'}
+function animN(id,target){const el=document.getElementById(id);if(target===0){el.textContent='0';return}let c=0;const step=Math.ceil(target/40);const iv=setInterval(()=>{c=Math.min(c+step,target);el.textContent=c.toLocaleString('id-ID');if(c>=target)clearInterval(iv)},28)}
+async function doSearch(page=1){curPage=page;const q=document.getElementById('qi').value;const p=new URLSearchParams({q,page,prodi:document.getElementById('fP').value,fakultas:document.getElementById('fF').value,status:document.getElementById('fS').value,angkatan:document.getElementById('fA').value});
+document.getElementById('sw').style.display='flex';document.getElementById('tc').style.display='none';document.getElementById('ew').style.display='none';document.getElementById('rmeta').style.display='none';document.getElementById('pg').innerHTML='';
+const data=await fetch(`/api/search?${p}`).then(r=>r.json());document.getElementById('sw').style.display='none';
+const meta=document.getElementById('rmeta');meta.style.display='flex';const from=(page-1)*data.per_page+1,to=Math.min(page*data.per_page,data.total);
+meta.innerHTML=data.total?`Menampilkan <strong>${from}–${to}</strong> dari <strong>${data.total.toLocaleString('id-ID')}</strong> mahasiswa terdaftar`:'Tidak ada hasil ditemukan.';
+if(!data.results.length){document.getElementById('ew').style.display='block';document.getElementById('ew').innerHTML=`<div class="empty"><div class="ico">🎓</div><h3>${data.total===0&&!document.getElementById('qi').value?'Belum Ada Mahasiswa Terdaftar':'Tidak Ditemukan'}</h3><p>${data.total===0&&!document.getElementById('qi').value?'Jadilah yang pertama mendaftarkan diri!':'Coba ubah kata kunci atau filter.'}</p>${data.total===0?'<a href="/daftar">+ Daftar Sekarang</a>':''}</div>`;return}
+const tc=document.getElementById('tc');tc.style.display='block';
+tc.innerHTML=`<table><thead><tr><th>NIM</th><th>Nama</th><th>Program Studi</th><th class="hs">Fakultas</th><th>Angkatan</th><th class="hs">Sem.</th><th class="hs">Tgl Daftar</th><th>Status</th></tr></thead><tbody>${data.results.map(m=>`<tr><td><div class="nim">${m.nim}</div></td><td><div>${m.nama}</div><div class="email-sm">${m.email}</div></td><td>${m.prodi}</td><td class="hs" style="color:var(--muted);font-size:.82rem">${m.fakultas}</td><td>${m.angkatan}</td><td class="hs" style="color:var(--muted)">${m.semester}</td><td class="hs"><div class="tgl">${m.tgl_daftar?m.tgl_daftar.split(' ')[0]:'—'}</div></td><td><span class="badge ${m.status==='Aktif'?'ba':'bc'}">${m.status}</span></td></tr>`).join('')}</tbody></table>`;
+renderPag(data.total,data.per_page,page)}
+function renderPag(total,pp,cur){const pages=Math.ceil(total/pp);if(pages<=1){document.getElementById('pg').innerHTML='';return}let h=`<button class="pb" ${cur===1?'disabled':''} onclick="doSearch(${cur-1})">‹</button>`;let s=Math.max(1,cur-2),e=Math.min(pages,s+4);if(e-s<4)s=Math.max(1,e-4);if(s>1)h+=`<button class="pb" onclick="doSearch(1)">1</button>${s>2?'<span style="color:var(--muted);align-self:center">…</span>':''}`;for(let p=s;p<=e;p++)h+=`<button class="pb ${p===cur?'active':''}" onclick="doSearch(${p})">${p}</button>`;if(e<pages)h+=`${e<pages-1?'<span style="color:var(--muted);align-self:center">…</span>':''}<button class="pb" onclick="doSearch(${pages})">${pages}</button>`;h+=`<button class="pb" ${cur===pages?'disabled':''} onclick="doSearch(${cur+1})">›</button>`;document.getElementById('pg').innerHTML=h}
+function clearF(){['fP','fF','fS','fA'].forEach(id=>document.getElementById(id).value='');document.getElementById('qi').value='';doSearch(1)}
+document.getElementById('qi').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(1)});
+['fP','fF','fS','fA'].forEach(id=>document.getElementById(id).addEventListener('change',()=>doSearch(1)));
+loadFilters();loadStats();doSearch(1);
+</script>
+</body>
+</html>
