@@ -179,7 +179,6 @@ def api_stats():
     conn.close()
     return jsonify({"total": total, "aktif": aktif, "avg_ipk": avg_ipk, "total_prodi": total_prodi})
 
-
+init_db()
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True, port=5000)
